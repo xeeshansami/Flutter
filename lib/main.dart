@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './app_screens/first_screen.dart';
+
 void main() => runApp(MyFlutterApp());
 
-class MyFlutterApp extends StatelessWidget{
-
+class MyFlutterApp extends StatelessWidget {
   const MyFlutterApp({Key? key}) : super(key: key);
 
   @override
@@ -12,12 +12,12 @@ class MyFlutterApp extends StatelessWidget{
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          appBar: AppBar(
-            title: const Text("First App Testing",textAlign: TextAlign.right),
-            backgroundColor: Colors.red,
-          ),
-          body: FirstScreen()
-        ));
+            appBar: AppBar(
+              title: const Text("First App Testing",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(color: Colors.white, fontSize: 30.0)),
+              backgroundColor: Colors.red,
+            ),
+            body: FirstScreen()));
   }
-
 }
