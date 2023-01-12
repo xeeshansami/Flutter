@@ -15,13 +15,47 @@ class FirstScreen extends StatelessWidget {
 
   Widget textVIew() {
     return Center(
-        child: Text("Your lucky number is " + luckyNumber().toString(),
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black, fontSize: 15.0)));
+        child: Container(
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        child: Text(
+                            "Your lucky number is " + luckyNumber().toString(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 15.0,
+                                fontFamily: "Ubuntu",
+                                fontWeight: FontWeight.w800))),
+                    Expanded(
+                        child: Text(
+                            "Your lucky number is " + luckyNumber().toString(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 15.0,
+                                fontFamily: "Ubuntu",
+                                fontWeight: FontWeight.w800))),
+                    Expanded(
+                        child: Text(
+                            "Your lucky number is " + luckyNumber().toString(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 15.0,
+                                fontFamily: "Ubuntu",
+                                fontWeight: FontWeight.w800)))
+                  ],
+                )
+              ],
+            )));
   }
 
   int luckyNumber() {
-    var random = new Random();
+    var random = Random();
     int luckyNumber = random.nextInt(10);
     return luckyNumber;
   }

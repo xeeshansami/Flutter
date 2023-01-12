@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './app_screens/first_screen.dart';
 
-void main() => runApp(MyFlutterApp());
+void main() => runApp(const MyFlutterApp());
 
 class MyFlutterApp extends StatelessWidget {
   const MyFlutterApp({Key? key}) : super(key: key);
