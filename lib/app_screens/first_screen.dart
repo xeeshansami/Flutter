@@ -84,7 +84,6 @@ class FirstScreen extends StatelessWidget {
                 ),
                 const imagePicker(),
                 const myButton(),
-
               ],
             )));
   }
@@ -152,5 +151,28 @@ class myButton extends StatelessWidget {
         title: Text("ALERT!"), content: Text("This is my alert dialog"));
     showDialog(
         context: context, builder: (BuildContext context) => alertDialog);
+  }
+}
+
+class floatingButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+        onPressed: () {
+          snackBar(context, "this is my text");
+        },
+        child: Icon(Icons.add),
+        tooltip: "Add more items");
+  }
+
+  void snackBar(BuildContext context, String text) {
+    var snackbar = SnackBar(
+      content: Text(text),
+      action: SnackBarAction(
+        label: "UNDO",
+        onPressed: () => {debugPrint("UNDO Text")},
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 }
