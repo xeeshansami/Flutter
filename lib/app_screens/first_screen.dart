@@ -2,11 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-TextEditingController principleController = TextEditingController();
-TextEditingController rateController = TextEditingController();
-TextEditingController termsController = TextEditingController();
-String calculatedValue = "";
-
 class FirstScreen extends StatefulWidget {
   // @override
   // Widget build(BuildContext context) {
@@ -119,9 +114,46 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _myState extends State<FirstScreen> {
+  String calculatedValue = "";
+  TextEditingController principleController = TextEditingController();
+  TextEditingController rateController = TextEditingController();
+  TextEditingController termsController = TextEditingController();
   String userInput = "";
-  var currenciesArray = {'Rupees', 'Dollers', 'Pounds'};
-  var selectedCurrentValue = "Rupees";
+  var currenciesArray = ['Rupees', 'Dollers', 'Pounds'];
+  var selectedCurrentValue = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectedCurrentValue = currenciesArray[0];
+  }
+  final ButtonStyle style = ElevatedButton.styleFrom(
+      backgroundColor: Colors.black12,
+      textStyle: const TextStyle(fontSize: 30.0));
+  var eds = EdgeInsets.all(10.0);
+
+  void reset(){
+    principleController.text="";
+    rateController.text="";
+    termsController.text="";
+    this.calculatedValue="";
+    this.selectedCurrentValue=currenciesArray[0];
+  }
+
+  String calculate() {
+    double principle = double.parse(principleController.text);
+    double rate = double.parse(rateController.text);
+    double terms = double.parse(termsController.text);
+    double result = principle + (principle * rate * terms) / 100;
+    return "After $terms years, your investment will be worth $result";
+  }
+
+  void alertMe(BuildContext context) {
+    var alertDialog = const AlertDialog(
+        title: Text("ALERT!"), content: Text("This is my alert dialog"));
+    showDialog(
+        context: context, builder: (BuildContext context) => alertDialog);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -195,15 +227,51 @@ class _myState extends State<FirstScreen> {
                             onChanged: (String? a) {
                               onChange(a!!);
                             })),
-                    Text(calculatedValue)
                   ],
                 )),
             Row(
               children: [
-                Expanded(child: calculateButton()),
-                Expanded(child: resetButton())
+                Expanded(
+                    child: Container(
+                        width: 250.0,
+                        height: 50.0,
+                        padding: eds,
+                        margin: eds,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              calculatedValue = calculate();
+                            });
+                          },
+                          style: style,
+                          child: const Text("Calculate",
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.white,
+                                  fontFamily: "Ubuntu",
+                                  fontWeight: FontWeight.w800)),
+                        ))),
+                Expanded(
+                    child: Container(
+                        width: 250.0,
+                        height: 50.0,
+                        padding: eds,
+                        margin: eds,
+                        child: ElevatedButton(
+                          style: style,
+                          onPressed: () => setState(() {
+                            reset();
+                          }),
+                          child: const Text("Reset",
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.white,
+                                  fontFamily: "Ubuntu",
+                                  fontWeight: FontWeight.w800)),
+                        )))
               ],
-            )
+            ),
+            Text(this.calculatedValue)
           ],
         ),
       ),
@@ -256,8 +324,10 @@ class calculateButton extends StatelessWidget {
         padding: eds,
         margin: eds,
         child: ElevatedButton(
+          onPressed: () {
+            // calculatedValue=calculate();
+          },
           style: style,
-          onPressed: () => calculatedValue = calculate(),
           child: const Text("Calculate",
               style: TextStyle(
                   fontSize: 15.0,
@@ -272,14 +342,6 @@ class calculateButton extends StatelessWidget {
         title: Text("ALERT!"), content: Text("This is my alert dialog"));
     showDialog(
         context: context, builder: (BuildContext context) => alertDialog);
-  }
-
-  String calculate() {
-    double principle = double.parse(principleController.text);
-    double rate = double.parse(rateController.text);
-    double terms = double.parse(termsController.text);
-    double result = principle + (principle * rate * terms) / 100;
-    return "After $terms years, your investment will be worth $result";
   }
 }
 
