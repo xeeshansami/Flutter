@@ -1,28 +1,20 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import './app_screens/first_screen.dart';
 
-void main() => runApp(const MyFlutterApp());
+void main() => runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: "Simple Calculator App",
+    home:  FirstScreen(),
+    theme: ThemeData(
+      brightness: Brightness.dark,
+        primaryColor: Colors.amberAccent, accentColor: Colors.amberAccent)));
 
-class MyFlutterApp extends StatelessWidget {
-  const MyFlutterApp({Key? key}) : super(key: key);
-
+/*class MyFlutterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text("First App Testing",
-                textAlign: TextAlign.right,
-                style: TextStyle(color: Colors.white, fontSize: 30.0)),
-            backgroundColor: Colors.red,
-          ),
-          body: Container(child: getListView()),
-          floatingActionButton: floatingButton(),
-        ));
+    return FirstScreen();
   }
 
   List<String> getList() {
@@ -70,6 +62,4 @@ class MyFlutterApp extends StatelessWidget {
     showDialog(
         context: context, builder: (BuildContext context) => alertDialog);
   }
-
-
-}
+}*/
