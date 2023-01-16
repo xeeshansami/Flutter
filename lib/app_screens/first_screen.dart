@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class FirstScreen extends StatefulWidget {
   // @override
@@ -114,6 +115,7 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _myState extends State<FirstScreen> {
+  final _formKey = GlobalKey<FormState>();
   String calculatedValue = "";
   TextEditingController principleController = TextEditingController();
   TextEditingController rateController = TextEditingController();
@@ -121,23 +123,25 @@ class _myState extends State<FirstScreen> {
   String userInput = "";
   var currenciesArray = ['Rupees', 'Dollers', 'Pounds'];
   var selectedCurrentValue = "";
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     selectedCurrentValue = currenciesArray[0];
   }
+
   final ButtonStyle style = ElevatedButton.styleFrom(
       backgroundColor: Colors.black12,
       textStyle: const TextStyle(fontSize: 30.0));
   var eds = EdgeInsets.all(10.0);
 
-  void reset(){
-    principleController.text="";
-    rateController.text="";
-    termsController.text="";
-    this.calculatedValue="";
-    this.selectedCurrentValue=currenciesArray[0];
+  void reset() {
+    principleController.text = "";
+    rateController.text = "";
+    termsController.text = "";
+    this.calculatedValue = "";
+    this.selectedCurrentValue = currenciesArray[0];
   }
 
   String calculate() {
@@ -145,7 +149,8 @@ class _myState extends State<FirstScreen> {
     double rate = double.parse(rateController.text);
     double terms = double.parse(termsController.text);
     double result = principle + (principle * rate * terms) / 100;
-    return "After $terms years, your investment will be worth $result";
+    String formattedValue = result.toStringAsFixed(4);
+    return "After $terms years, your investment will be worth $formattedValue";
   }
 
   void alertMe(BuildContext context) {
@@ -162,36 +167,55 @@ class _myState extends State<FirstScreen> {
       appBar: AppBar(
         title: Text("StateFullWidget"),
       ),
-      body: Container(
+      body: Form(
+        key: _formKey,
         child: ListView(
           children: [
             image(),
             Container(
                 child: Padding(
                     padding: EdgeInsets.all(10.0),
-                    child: TextField(
-                      controller: principleController,
-                      style: theme,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          label: Text("Principle"),
-                          hintText: "Enter Principle in e.g 12000"),
-                      onSubmitted: (String userInput) {
-                        setState(() {
-                          this.userInput = userInput;
-                        });
-                      },
-                    ))),
+                    child: TextFormField(
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                        ],
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return "Please enter the amount of principle";
+                          } else if (value == "") {
+                            return "Invalid number";
+                          }
+                        },
+                        controller: principleController,
+                        style: theme,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            errorStyle:
+                                TextStyle(color: Colors.yellow, fontSize: 15.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            label: Text("Principle"),
+                            hintText: "Enter Principle in e.g 12000")))),
             Container(
                 child: Padding(
                     padding: EdgeInsets.all(10.0),
-                    child: TextField(
+                    child: TextFormField(
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                      ],
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return "Please enter the amount of rate of interest";
+                        } else if (value == TextInputType.text) {
+                          return "Invalid number";
+                        }
+                      },
                       controller: rateController,
                       style: theme,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
+                          errorStyle:
+                              TextStyle(color: Colors.yellow, fontSize: 15.0),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           label: Text("Rate Interest"),
@@ -202,11 +226,23 @@ class _myState extends State<FirstScreen> {
                 child: Row(
                   children: [
                     Expanded(
-                        child: TextField(
+                        child: TextFormField(
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                      ],
+                      validator: (String? value) {
+                        if (value!.isEmpty) {
+                          return "Please enter the amount of term";
+                        } else if (value == TextInputType.text) {
+                          return "Invalid number";
+                        }
+                      },
                       controller: termsController,
                       style: theme,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
+                          errorStyle:
+                              TextStyle(color: Colors.yellow, fontSize: 15.0),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           label: Text("Terms"),
@@ -240,7 +276,9 @@ class _myState extends State<FirstScreen> {
                         child: ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              calculatedValue = calculate();
+                              if (_formKey.currentState!.validate()) {
+                                calculatedValue = calculate();
+                              }
                             });
                           },
                           style: style,
@@ -400,4 +438,7 @@ class floatingButton extends StatelessWidget {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
+}
+extension Ex on double {
+  double toPrecision(int n) => double.parse(toStringAsFixed(n));
 }
