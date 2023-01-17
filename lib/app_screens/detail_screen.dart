@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class details_screen extends StatefulWidget {
+  var title = "";
 
-  var title="";
   details_screen(this.title);
+
   @override
   State<StatefulWidget> createState() {
     return stateFullWidget(title);
@@ -13,8 +14,10 @@ class details_screen extends StatefulWidget {
 }
 
 class stateFullWidget extends State<details_screen> {
-  var title="";
+  var title = "";
+
   stateFullWidget(this.title);
+
   var priorities = ["High", "Low", "Medium"];
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -22,18 +25,30 @@ class stateFullWidget extends State<details_screen> {
       backgroundColor: Colors.black12,
       textStyle: const TextStyle(fontSize: 30.0));
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: (){
+          moveToLastScreen();
+          return Future.value(true);
+        },
+        child: Scaffold(
         appBar: AppBar(
-          title: Text(title),
-        ),
-        body: bodyOfDetails());
+        title: Text(title),
+    leading: IconButton(
+    icon: Icon(Icons.arrow_back),
+    onPressed: () {
+    moveToLastScreen();
+    }),
+    ),
+    body: bodyOfDetails()));
   }
 
   Padding bodyOfDetails() {
-    TextStyle? theme = Theme.of(context).textTheme.titleSmall;
+    TextStyle? theme = Theme
+        .of(context)
+        .textTheme
+        .titleSmall;
     var pads = EdgeInsets.all(10.0);
     return Padding(
         padding: pads,
@@ -68,7 +83,8 @@ class stateFullWidget extends State<details_screen> {
                     padding: EdgeInsets.all(10.0),
                     child: TextFormField(
                         inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(RegExp(r'[a-z 0-9]'))
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-z 0-9]'))
                         ],
                         validator: (String? value) {
                           if (value!.isEmpty) {
@@ -85,7 +101,7 @@ class stateFullWidget extends State<details_screen> {
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                             errorStyle:
-                                TextStyle(color: Colors.yellow, fontSize: 15.0),
+                            TextStyle(color: Colors.yellow, fontSize: 15.0),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0)),
                             label: Text("Title"),
@@ -98,7 +114,8 @@ class stateFullWidget extends State<details_screen> {
                           debugPrint(textValue);
                         },
                         inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(RegExp(r'[a-z 0-9]'))
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-z 0-9]'))
                         ],
                         validator: (String? value) {
                           if (value!.isEmpty) {
@@ -112,7 +129,7 @@ class stateFullWidget extends State<details_screen> {
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                             errorStyle:
-                                TextStyle(color: Colors.yellow, fontSize: 15.0),
+                            TextStyle(color: Colors.yellow, fontSize: 15.0),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0)),
                             label: Text("Description"),
@@ -125,11 +142,9 @@ class stateFullWidget extends State<details_screen> {
                         height: 50.0,
                         padding: pads,
                         margin: pads,
-                        child: ElevatedButton(
+                        child: ElevatedButton (
                           onPressed: () {
-                            setState(() {
-
-                            });
+                            setState(() {});
                           },
                           style: style,
                           child: const Text("Save",
@@ -147,8 +162,7 @@ class stateFullWidget extends State<details_screen> {
                         margin: pads,
                         child: ElevatedButton(
                           style: style,
-                          onPressed: () => setState(() {
-                          }),
+                          onPressed: () => setState(() {}),
                           child: const Text("Delete",
                               style: TextStyle(
                                   fontSize: 15.0,
@@ -160,5 +174,9 @@ class stateFullWidget extends State<details_screen> {
             )
           ],
         ));
+  }
+
+  void moveToLastScreen() {
+    Navigator.pop(context);
   }
 }
