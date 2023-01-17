@@ -155,8 +155,6 @@ class _myState extends State<FirstScreen> {
 
   void alertMe(BuildContext context) {
 
-
-
     var alertDialog = const AlertDialog(
         title: Text("ALERT!"), content: Text("This is my alert dialog"));
     showDialog(
