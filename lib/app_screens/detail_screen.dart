@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/models/Note.dart';
 
 class details_screen extends StatefulWidget {
   var title = "";
 
-  details_screen(this.title);
+  details_screen(this.title, Note note);
 
   @override
   State<StatefulWidget> createState() {
