@@ -9,7 +9,7 @@ class DatabaseHelper {
   static DatabaseHelper? _databaseHelper;
   static Database? _database;
   String noteTable = Constants.table;
-  String colId = Constants.table;
+  String colId = Constants.id;
   String colTitle = Constants.title;
   String colDescription = Constants.description;
   String colDate = Constants.date;

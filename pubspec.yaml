@@ -38,8 +38,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  sqflite: any
-  path_provider: any
+  sqflite: ^2.2.3
+  path_provider: ^2.0.11
   intl: ^0.18.0
 
   # The "flutter_lints" package below contains a set of recommended lints to

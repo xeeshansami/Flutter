@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/app_screens/detail_screen.dart';
 import 'package:flutter_app/database/DatabaseHelper.dart';
@@ -17,16 +19,22 @@ class notePadKeeperState extends State<NoteKeeper> {
   var count = 0;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     if (noteList == null) {
-      this.noteList = <Note>[];
+      noteList = <Note>[];
       updateListOfNote();
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Notepads")),
       body: getNotepadList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          debugPrint("click");
           navigateToNextScreen(Note("", "", 2), "Add Note");
         },
         tooltip: "Add new note",
@@ -45,7 +53,7 @@ class notePadKeeperState extends State<NoteKeeper> {
             child: ListTile(
               leading: CircleAvatar(
                   backgroundColor:
-                  getPriority(this.noteList![position].priority),
+                      getPriority(this.noteList![position].priority),
                   child: getPriorityIcons(this.noteList![position].priority)),
               title: Text("${this.noteList![position].title}",
                   style: TextStyle(color: Colors.black)),
@@ -67,10 +75,14 @@ class notePadKeeperState extends State<NoteKeeper> {
         });
   }
 
-  void navigateToNextScreen(Note note, String noteTitle) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+  void navigateToNextScreen(Note note, String noteTitle) async {
+    bool result =
+        await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return details_screen(noteTitle, note);
     }));
+    if (result == true) {
+      updateListOfNote();
+    }
   }
 
   Color getPriority(int pri0rity) {
