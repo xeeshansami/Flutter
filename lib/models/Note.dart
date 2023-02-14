@@ -1,25 +1,25 @@
 import 'package:flutter_app/utils/Constants.dart';
 
 class Note {
-  late int _id;
-  late String _title;
-  late String _description;
-  late String _date;
-  late int _priority;
+  int _id=0;
+  String _title = "";
+  String _description = "";
+  String _date = "";
+  int _priority = 0;
 
-  Note(this._title, this._date, this._priority,[_description]);
+  Note(this._title, this._date, this._priority, [_description]);
 
-  Note.withId(this._title, this._date, this._priority,[_description]);
+  Note.withId(this._title, this._date, this._priority, [_description]);
 
   int get id => _id;
 
-  String get title => _title;
+  String get title => _title!!;
 
-  String get description => _description;
+  String get description => _description!!;
 
-  String get date => _date;
+  String get date => _date!!;
 
-  int get priority => _priority;
+  int get priority => _priority!!;
 
   set title(String title) {
     if (title.length <= 255) {

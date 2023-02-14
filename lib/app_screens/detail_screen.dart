@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +34,7 @@ class stateFullWidget extends State<details_screen> {
     this.note = note;
   }
 
-  var priorities = ["High", "Low", "Medium"];
+  var priorities = ["Low", "High"];
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   final ButtonStyle style = ElevatedButton.styleFrom(
@@ -195,7 +197,7 @@ class stateFullWidget extends State<details_screen> {
   }
 
   void moveToLastScreen() {
-    Navigator.pop(context,true);
+    Navigator.pop(context, true);
   }
 
   void updatepriorityAsInt(String value) {
@@ -250,7 +252,8 @@ class stateFullWidget extends State<details_screen> {
     int result;
     moveToLastScreen();
     note.date = DateFormat.yMMMd().format(DateTime.now());
-    if (note.id == null) {
+    // debugger();
+    if (note.id == 0) {
       //insert note in db
       result = await databaseHelper.insertNote(note);
       if (result != 0) {

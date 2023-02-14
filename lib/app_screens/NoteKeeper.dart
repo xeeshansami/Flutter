@@ -15,20 +15,17 @@ class NoteKeeper extends StatefulWidget {
 
 class notePadKeeperState extends State<NoteKeeper> {
   DatabaseHelper databaseHelper = DatabaseHelper();
-  List<Note>? noteList;
+  List<Note> noteList = [];
   var count = 0;
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
+    var now = DateTime.now();
+    print("Build Run ${now}");
     if (noteList == null) {
       noteList = <Note>[];
       updateListOfNote();
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Notepads")),
       body: getNotepadList(),
@@ -133,7 +130,7 @@ class notePadKeeperState extends State<NoteKeeper> {
   }
 
   void updateListOfNote() {
-    final Future<Database> dbFuture = databaseHelper.initialisedDatabase();
+    final Future<Database> dbFuture = databaseHelper.initializeDatabase();
     dbFuture.then((database) {
       Future<List<Note>> noteListFuture = databaseHelper.getNoteList();
       noteListFuture.then((noteList) {
